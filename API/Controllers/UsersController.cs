@@ -1,17 +1,41 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using API.Data;
+using API.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+
     public class UsersController : ControllerBase
     {
-        [HttpGet("GetAllUsers")]    
 
-        public IActionResult GetAllUsers()
+
+        private readonly DataContext _context;
+
+
+        public UsersController(DataContext context)
         {
-            return Ok("This is the list of users");
-        }   
+            _context = context;
+
+
+        }
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<AppUsser>> GetAllUsers()
+        {
+            var users = await _context.Users.ToListAsync();
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return Ok(users);
+
+
+        }
     }
+
 }
