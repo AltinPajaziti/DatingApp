@@ -14,9 +14,9 @@ export interface model {
   styleUrl: './nav.component.css'
 })
 export class NavComponent {
-  loggedIn !: boolean;
 
-  private account = inject(AccountService)
+
+  account = inject(AccountService)
 
 
 
@@ -28,18 +28,16 @@ export class NavComponent {
     this.account.login(this.model).subscribe(
     {
       next : Response =>{
-        this.loggedIn = true
         console.log(Response)
       }
     }
     
 
     )
-    this.loggedIn = false;
     console.log("this is the model" , this.model)
   }
 
   logout(){
-    this.loggedIn =false
+    this.account.logout()
   }
 }
