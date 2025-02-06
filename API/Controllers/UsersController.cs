@@ -22,7 +22,6 @@ namespace API.Controllers
 
 
         }
-        [Authorize]
         [HttpGet("GetAllUsers")]
         public async Task<ActionResult<AppUsser>> GetAllUsers()
         {

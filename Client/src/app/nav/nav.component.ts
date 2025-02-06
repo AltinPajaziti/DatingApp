@@ -1,21 +1,45 @@
-import { Component, model } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
+import { AccountService } from '../services/account.service';
+import { CommonModule, NgIf } from '@angular/common';
+export interface model {
+  username :string,
+  password : string
+}
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule ],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
 export class NavComponent {
-  username:any;
-  password : any;
+  loggedIn !: boolean;
 
-  model : any = {}
+  private account = inject(AccountService)
+
+
+
+  public model : any = {}
+
 
 
   login(){
-    console.log("this is the model" , model)
+    this.account.login(this.model).subscribe(
+    {
+      next : Response =>{
+        this.loggedIn = true
+        console.log(Response)
+      }
+    }
+    
+
+    )
+    this.loggedIn = false;
+    console.log("this is the model" , this.model)
+  }
+
+  logout(){
+    this.loggedIn =false
   }
 }
