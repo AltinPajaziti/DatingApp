@@ -2,6 +2,7 @@ import { Component, inject, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../services/account.service';
 import { CommonModule, NgIf } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 export interface model {
   username :string,
   password : string
@@ -9,7 +10,7 @@ export interface model {
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FormsModule ],
+  imports: [FormsModule , RouterLink ,RouterLinkActive],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
@@ -17,6 +18,7 @@ export class NavComponent {
 
 
   account = inject(AccountService)
+  private router = inject(Router)
 
 
 
@@ -27,8 +29,8 @@ export class NavComponent {
   login(){
     this.account.login(this.model).subscribe(
     {
-      next : Response =>{
-        console.log(Response)
+      next : _ =>{
+        this.router.navigateByUrl('/members')
       }
     }
     
@@ -39,5 +41,6 @@ export class NavComponent {
 
   logout(){
     this.account.logout()
+    this.router.navigateByUrl('')
   }
 }
