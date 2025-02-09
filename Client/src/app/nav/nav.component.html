@@ -1,4 +1,54 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+<style>
+  .navbar {
+    background-color: #ff851b; /* United theme orange */
+    color: white;
+  }
+
+  button{
+    background-color: #ff851b; 
+  }
+
+  .navbar .nav-link {
+    color: white;
+  }
+
+  .navbar .nav-link.active {
+    color: #f8f9fa; /* Lighter color for active state */
+  }
+
+  .navbar .navbar-toggler-icon {
+    background-color: white; /* Ensure the toggler icon is visible */
+  }
+
+  .navbar .navbar-brand {
+    color: white;
+  }
+
+  .navbar .dropdown-menu {
+    background-color: #ff851b; /* Same orange for dropdown */
+  }
+
+  .navbar .dropdown-item {
+    color: white;
+  }
+
+  .navbar .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #ff851b; /* Text color on hover */
+  }
+
+  .navbar .btn-outline-success {
+    border-color: #28a745;
+    color: #28a745;
+  }
+
+  .navbar .btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+  }
+</style>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top">
   <div class="container">
     <a class="navbar-brand" routerLink="">Dating App</a>
 
@@ -7,10 +57,8 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Matches, Lists, Messages -->
-   
-      <ul class="navbar-nav me-auto mb-2 mb-md-0">
-        @if (account.currentuser()) {
+    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+      @if (account.currentuser()) {
         <li class="nav-item">
           <a class="nav-link" routerLink="/members" routerLinkActive="active">Matches</a>
         </li>
@@ -21,11 +69,10 @@
           <a class="nav-link" routerLink="/messages"  routerLinkActive="active">Messages</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"  (click)="logout()">Logout</a>
+          <a class="nav-link" (click)="logout()">Logout</a>
         </li>
       }
-
-      </ul>
+    </ul>
 
     @if (account.currentuser()) {
       <div class="dropdown">
@@ -33,7 +80,7 @@
           data-bs-toggle="dropdown" aria-expanded="false">
           Welcome user
         </a>
-      
+
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
           <li><a href="#" class="dropdown-item" (click)="logout()">Logout</a></li>
         </ul>

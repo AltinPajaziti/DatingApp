@@ -1,0 +1,48 @@
+.custom-navbar {
+    background-color: #ff851b !important; /* United theme orange */
+    color: white !important;
+  }
+  
+  .custom-navbar .navbar-nav .nav-link {
+    color: white !important;
+  }
+  
+  .custom-navbar .navbar-nav .nav-link.active {
+    color: #f8f9fa !important; /* Lighter color for active state */
+  }
+  
+  .custom-navbar .navbar-toggler-icon {
+    background-color: white !important; /* Ensure the toggler icon is visible on orange background */
+  }
+  
+  .custom-navbar .navbar-brand {
+    color: white !important;
+  }
+  
+  .custom-navbar .dropdown-menu {
+    background-color: #ff851b !important; /* Same orange for dropdown */
+  }
+  
+  .custom-navbar .dropdown-item {
+    color: white !important;
+  }
+  
+  .custom-navbar .dropdown-item:hover {
+    background-color: #f8f9fa !important; /* Lighten the dropdown item on hover */
+    color: #ff851b !important; /* Text color on hover */
+  }
+  
+  .custom-navbar .form-control {
+    border: 1px solid #ced4da !important; /* Light border for inputs */
+  }
+  
+  .custom-navbar .btn-outline-success {
+    border-color: #28a745 !important; /* Green border for the login button */
+    color: #28a745 !important;
+  }
+  
+  .custom-navbar .btn-outline-success:hover {
+    background-color: #28a745 !important;
+    color: white !important;
+  }
+  
