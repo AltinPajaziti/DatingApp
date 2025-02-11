@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit{
   this.registerMode=event;
   }
   getUsers() {
-    this.http.get('http://localhost:5000/api/users').subscribe({
+    this.http.get('https://localhost:7198/api/Users/GetAllUsers').subscribe({
       next: response => this.users = response,
       error: error => console.log(error),
       complete: () => console.log("request has completed")
