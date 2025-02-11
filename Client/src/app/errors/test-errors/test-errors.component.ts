@@ -12,6 +12,7 @@ export class TestErrorsComponent {
 
 
   private baseUrl = "https://localhost:7198/api/";
+  public validationErrors! :any;
 
   public http = inject(HttpClient);
 
@@ -40,11 +41,11 @@ export class TestErrorsComponent {
     })
   }
   get400ValidationError() {
-    this.http.post(this.baseUrl + 'account/register', {}).subscribe({
+    this.http.post(this.baseUrl + 'Account/register', {}).subscribe({
       next: response => console.log(response),
       error: error => {
         console.log(error);
-       // this.validationErrors = error;
+        this.validationErrors = error;
       }
     })
   }

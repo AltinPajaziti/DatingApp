@@ -2,16 +2,17 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideToastr, Toast } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { errorInterceptor } from './interceptors/error.interceptor';
 
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes), 
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([errorInterceptor])),
     provideToastr({
       positionClass: 'toast-bottom-right'
     }),

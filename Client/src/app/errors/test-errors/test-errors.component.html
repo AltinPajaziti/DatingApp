@@ -8,4 +8,16 @@
 
     <button class="btn btn-primary me-3" (click)="get400ValidationError()">Test validation error error</button>
 
+
+    @if (validationErrors.length > 0) {
+        <div class="row mt-5">
+            <ul class="text-danger">
+                @for (item of validationErrors; track $index) {
+                    <li>{{item}}</li>
+                }
+            </ul>
+        </div>
+
+    }
+
 </div>

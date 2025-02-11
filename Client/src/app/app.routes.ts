@@ -6,6 +6,8 @@ import { ListsComponent } from './home/lists/lists.component';
 import { MessagesComponent } from './home/messages/messages.component';
 import { authGuard } from './_guards/auth.guard';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
 
 export const routes: Routes = [
 
@@ -27,7 +29,10 @@ export const routes: Routes = [
     },
 
     {path : "error" , component : TestErrorsComponent},
+    {path : "not-found" , component : NotFoundComponent},
+    {path : "server-error" , component : ServerErrorComponent},
+
 
     
-    // {path : "**" , component : HomeComponent , pathMatch:'full'}
+     {path : "**" , component : HomeComponent , pathMatch:'full'}
 ];
