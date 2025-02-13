@@ -9,5 +9,8 @@
         public bool Ismain { get; set; }
 
         public string? PublicId { get; set; }
+
+        public int Appuserid { get; set; }
+        public AppUsser Appuser { get; set; } = null;
     }
 }
