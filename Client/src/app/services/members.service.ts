@@ -15,7 +15,7 @@ export class MembersService {
   baseURl = environment.apiUrl
 
   getMembers(){
-    return this.http.get<Member>(this.baseURl+ 'Users',this.getHttpOptions())
+    return this.http.get<Member[]>(this.baseURl+ 'Users',this.getHttpOptions())
   }
 
   getMember(username : string){

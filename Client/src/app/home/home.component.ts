@@ -10,26 +10,16 @@ import { RegisterComponent } from "../register/register.component";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
-  http = inject(HttpClient);
+export class HomeComponent {
   registerMode = false;
-  usersfrom:any;
+ 
   
-  users: any;
-  ngOnInit(): void {
-    this.getUsers();
-  }
+
   registerToggle() {
     this.registerMode = !this.registerMode;
   }
   cancelRegisterMode(event:boolean){
   this.registerMode=event;
   }
-  getUsers() {
-    this.http.get('https://localhost:7198/api/Users/GetAllUsers').subscribe({
-      next: response => this.users = response,
-      error: error => console.log(error),
-      complete: () => console.log("request has completed")
-    })
-  }
+
 }
