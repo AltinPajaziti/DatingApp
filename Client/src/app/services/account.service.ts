@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../Models/User';
 import { map } from 'rxjs';
 import { JsonPipe } from '@angular/common';
+import { environment } from '../../environments/environment.development';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ export class AccountService {
 
   public currentuser = signal<User | null>(null);
   private http = inject(HttpClient)
-  private baseurl : string = 'https://localhost:7198/api/'
+  private baseurl : string = environment.apiUrl
 
   login(model : any){
     return this.http.post<User>(this.baseurl + 'Account/login', model).pipe(
