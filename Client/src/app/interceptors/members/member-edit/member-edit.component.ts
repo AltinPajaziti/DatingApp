@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, viewChild, type OnInit, type TemplateRef } from '@angular/core';
+import { Component, HostListener, inject, ViewChild, viewChild, type OnInit, type TemplateRef } from '@angular/core';
 import type { Member } from '../../../Models/Member';
 import { AccountService } from '../../../services/account.service';
 import { MembersService } from '../../../services/members.service';
@@ -19,7 +19,13 @@ member ?: Member;
 private accountService = inject(AccountService) 
 private memberservice = inject(MembersService)
 private toastr = inject(ToastrService)
-@ViewChild('ngForm') editform! : NgForm;
+@ViewChild('editform') editform! : NgForm;
+@HostListener('window:beforeunload', ['$event'])
+notify($event: any): void {
+  if (this.editform?.dirty) {
+    $event.returnValue = true ;
+  }
+}
 
 ngOnInit(): void {
   this.loadusers()
