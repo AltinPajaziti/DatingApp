@@ -3,7 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Member } from '../Models/Member';
 import { AccountService } from './account.service';
-import { tap } from 'rxjs';
+import { of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +14,16 @@ export class MembersService {
   baseURl = environment.apiUrl
   members = signal<Member[]>([]);
 
+
   getMembers(){
-    return this.http.get<Member[]>(this.baseURl+ 'Users')
-  }
+    return this.http.get<Member[]>(this.baseURl + 'users').subscribe({
+      next: members => this.members.set(members)
+    }) 
+   }
 
   getMember(username : string){
+    const member = this.members().find(x=>x.username == username)
+    if(member != undefined) return of(member)
     return this.http.get<Member>(this.baseURl+ 'Users/' + username )
   }
 
