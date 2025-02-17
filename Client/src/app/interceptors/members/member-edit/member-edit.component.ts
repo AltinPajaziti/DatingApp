@@ -32,9 +32,22 @@ ngOnInit(): void {
 }
 
 
-updateMember(){
-  this.toastr.success('Profile updated successfully');
-  this.editform?.reset(this.member);
+// updateMember(){
+//   this.toastr.success('Profile updated successfully');
+//   this.editform?.reset(this.member);
+
+
+
+  
+// }
+
+updateMember() {
+  this.memberservice.updateMember(this.editform?.value).subscribe({
+    next: _ => {
+      this.toastr.success('Profile updated successfully');
+      this.editform?.reset(this.member);
+    }
+  })
 }
 
 
