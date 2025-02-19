@@ -94,7 +94,8 @@ namespace API.Controllers
 
             if(await _repository.SaveAllAsync())
             {
-                return _mapper.Map<PhotoDto>(photo);
+                return CreatedAtAction(nameof(GetUser),
+                new { username = username.UserName }, _mapper.Map<PhotoDto>(photo));
             }
 
             return BadRequest("there was a problem adding the photo");
