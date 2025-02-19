@@ -5,11 +5,12 @@ import { MembersService } from '../../../services/members.service';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FormsModule, type NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { PhotoEditoreComponent } from "../../../members/photo-editore/photo-editore.component";
 
 @Component({
   selector: 'app-member-edit',
   standalone: true,
-  imports: [TabsModule , FormsModule],
+  imports: [TabsModule, FormsModule, PhotoEditoreComponent],
   templateUrl: './member-edit.component.html',
   styleUrl: './member-edit.component.css'
 })
@@ -62,6 +63,11 @@ loadusers(){
       this.member = respounse
     }
   })
+}
+
+
+onMemberChange(event: Member) {
+  this.member = event;
 }
 
 }
