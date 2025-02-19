@@ -32,6 +32,7 @@ namespace API.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
 
             services.AddScoped<IPhotoServices, PhotoServices>();
 
