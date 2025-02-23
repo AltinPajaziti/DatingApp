@@ -83,12 +83,14 @@ namespace API.Controllers
 
             if(result.Error != null) return BadRequest(result.Error.Message);
 
-            
+
             var photo = new Photo
             {
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId
             };
+            if (username.Photos.Count == 0) photo.Ismain = true;
+
 
             username.Photos.Add(photo);
 
