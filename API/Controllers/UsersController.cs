@@ -2,6 +2,7 @@
 using API.Dtos;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using API.Services;
 using AutoMapper;
@@ -13,7 +14,7 @@ using System.Security.Claims;
 
 namespace API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class UsersController : BaseApiController
     {
 
@@ -30,9 +31,12 @@ namespace API.Controllers
             _photoServices = photoServices;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userparams)
         {
-            var users = await _repository.GetMembersAsync();
+            var users = await _repository.GetMembersAsync(userparams);
+
+         
+             Response.AddPaginationHeader(users);
 
 
             return Ok(users);
