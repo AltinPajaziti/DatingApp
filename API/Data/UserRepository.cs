@@ -16,13 +16,27 @@ namespace API.Data
                 .ProjectTo<MemberDto>(mapper.ConfigurationProvider).SingleOrDefaultAsync();
         }
 
-        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userparams)
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            var query = context.Users
-                .ProjectTo<MemberDto>(mapper.ConfigurationProvider) 
-                .AsQueryable();
+            var query = context.Users.AsQueryable();
 
-            return await PagedList<MemberDto>.CreateAsync(query, userparams.PageNumber, userparams.PageSize);
+            query = query.Where(u => u.UserName != userParams.CurrentUsername);
+            query = query.Where(u => u.Gender == userParams.Gender);
+
+            var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
+            var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));
+
+            query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+
+            query = userParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(u => u.Created),
+                _ => query.OrderByDescending(u => u.LastActive)
+            };
+
+            return await PagedList<MemberDto>.CreateAsync(query.AsNoTracking()
+                .ProjectTo<MemberDto>(mapper.ConfigurationProvider),
+                    userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<AppUsser?> GetUserByIdAsync(int id)
