@@ -3,11 +3,13 @@ import { MembersService } from '../services/members.service';
 import type { Member } from '../Models/Member';
 import { MemberDetailComponent } from './member-detail/member-detail.component';
 import { MemberCardComponent } from './member-card/member-card.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-members',
   standalone: true,
-  imports: [MemberCardComponent],
+  imports: [MemberCardComponent, PaginationModule , NgIf],
   templateUrl: './members.component.html',
   styleUrl: './members.component.css'
 })
@@ -26,6 +28,14 @@ export class MembersComponent implements OnInit{
   LoadMembers() {
     this.MemberService.getMembers(this.pagenumber , this.pagesize)
      
+  }
+
+
+  pagechange(event :  any){
+    if(this.pagenumber != event.page){
+      this.pagenumber = event.page
+      this.LoadMembers()
+    }
   }
   
 
