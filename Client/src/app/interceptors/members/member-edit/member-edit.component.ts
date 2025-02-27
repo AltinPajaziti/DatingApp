@@ -6,11 +6,13 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FormsModule, type NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PhotoEditoreComponent } from "../../../members/photo-editore/photo-editore.component";
+import { DatePipe } from '@angular/common';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-member-edit',
   standalone: true,
-  imports: [TabsModule, FormsModule, PhotoEditoreComponent],
+  imports: [TabsModule, FormsModule, PhotoEditoreComponent , DatePipe , TimeagoModule],
   templateUrl: './member-edit.component.html',
   styleUrl: './member-edit.component.css'
 })

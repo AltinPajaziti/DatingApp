@@ -33,7 +33,7 @@ namespace API.Extensions
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
-
+            services.AddScoped<LogUserActivity>();
             services.AddScoped<IPhotoServices, PhotoServices>();
 
             services.Configure<CloudnarySettings>( config.GetSection("CloundinarySettings"));
