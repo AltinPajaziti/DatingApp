@@ -10,7 +10,6 @@ The **Dating App Web Application** includes two primary modules:
 
 - **User Module**: Users can register, log in, update their profile, search for potential matches, like other users, and see who they match with. They can also communicate with others in real-time.
   
-- **Admin Module**: Admins can manage user accounts, view user data, and ensure smooth operation of the platform.
 
 The application uses **Identity** for **authentication** and **authorization**, ensuring secure and seamless user management.
 
@@ -42,18 +41,7 @@ The application uses **Identity** for **authentication** and **authorization**, 
 - **⚙️ Profile Settings**:
   - Users can modify their **preferences**, including notification settings, visibility, and other privacy settings.
 
-### **👩‍💻 Admin Module**
-- **👤 User Management**:
-  - Admins can **view**, **manage**, and **delete user profiles**.
-  - Admin can **ban users** if necessary.
-  
-- **🔒 Security & Role Management**:
-  - Admins can manage user roles, such as assigning **admin** or **user** roles to accounts.
-  
-- **📊 Reporting & Analytics**:
-  - Admins can view platform usage, user activity, and general statistics.
 
----
 
 ## ⚙️ **Technologies Used**
 
