@@ -10,6 +10,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { MemberEditComponent } from './interceptors/members/member-edit/member-edit.component';
 import { preventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
+import { memberDetailedResolver } from './_resolvers/member-detailed.resolver';
 
 export const routes: Routes = [
 
@@ -23,8 +24,9 @@ export const routes: Routes = [
         canActivate : [authGuard],
         children : [
             {path:'members', component : MembersComponent},
-            {path : 'members/:username' , component : MemberDetailComponent},
-            { path: 'member/:edit', component: MemberEditComponent, canDeactivate: [preventUnsavedChangesGuard] },
+            {path: 'members/:username', component: MemberDetailComponent, 
+                resolve: {member: memberDetailedResolver}},  
+                          { path: 'member/:edit', component: MemberEditComponent, canDeactivate: [preventUnsavedChangesGuard] },
 
             {path: 'lists' , component : ListsComponent},
             {path : 'messages' , component: MessagesComponent},
