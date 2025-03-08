@@ -4,6 +4,7 @@ using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -12,101 +13,54 @@ using System.Text;
 namespace API.Controllers
 {
     
-    public class AccountController(DataContext context , ITokenService tokenService, IMapper mapper) : BaseApiController
+    public class AccountController(UserManager<AppUsser> userManager, ITokenService tokenService,
+    IMapper mapper) : BaseApiController
     {
-
-        [HttpPost("register")]
-
-        public async Task<ActionResult<UserDto>> Register(RegisterDto User)
+        [HttpPost("register")] // account/register
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
 
-            if (await this.UserExists(User.Username))
-            {
-                return BadRequest("Username is taken");
-            }
-            using var hmac = new HMACSHA512();
+            var user = mapper.Map<AppUsser>(registerDto);
 
-            var user = mapper.Map<AppUsser>(User);
+            user.UserName = registerDto.Username.ToLower();
 
-            user.UserName = User.Username.ToLower();
+            var result = await userManager.CreateAsync(user, registerDto.Password);
 
-            //user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(User.Password));
-
-            //user.PasswordSalt = hmac.Key;
-
-
-            context.Users.Add(user);
-
-            await context.SaveChangesAsync();
-
+            if (!result.Succeeded) return BadRequest(result.Errors);
 
             return new UserDto
             {
                 Username = user.UserName,
-                Token = tokenService.CreateToken(user),
+                Token = await tokenService.CreateToken(user),
                 KnownAs = user.KnownAs,
                 Gender = user.Gender
-
-
             };
-
-
-
-
-
         }
 
-
         [HttpPost("login")]
-
-        public async Task<ActionResult<UserDto>> Login(LoginDto User)
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
+            var user = await userManager.Users
+                .Include(p => p.Photos)
+                    .FirstOrDefaultAsync(x =>
+                        x.NormalizedUserName == loginDto.Username.ToUpper());
 
-            var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == User.Username);
+            if (user == null || user.UserName == null) return Unauthorized("Invalid username");
 
-            if(user == null)
-            {
-                return Unauthorized("User does not exists");
-            }
-
-            //using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            //var computedhash = hmac.ComputeHash(Encoding.UTF8.GetBytes(User.Password));
-
-            //for (int i = 0; i < computedhash.Length; i++)
-            //{
-            //    if (computedhash[i] != user.PasswordHash[i])
-            //    {
-            //        return Unauthorized("Invalid Password");
-            //    }
-            //}
-
-            var token = tokenService.CreateToken(user);
-
-            return Ok(new UserDto
+            return new UserDto
             {
                 Username = user.UserName,
-                Token = token,
                 KnownAs = user.KnownAs,
-                PhotoUrl = user.Photos.FirstOrDefault(x => x.Ismain)?.Url,
-                Gender = user.Gender
-            });
-
-
-
-
-
+                Token = await tokenService.CreateToken(user),
+                Gender = user.Gender,
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.Ismain)?.Url
+            };
         }
 
         private async Task<bool> UserExists(string username)
         {
-            var user = await context.Users.Where(x=>x.UserName == username).FirstOrDefaultAsync();
-
-            if(user != null)
-            {
-                return true;
-            }
-            return false;   
+            return await userManager.Users.AnyAsync(x => x.NormalizedUserName == username.ToUpper()); // Bob != bob
         }
     }
 

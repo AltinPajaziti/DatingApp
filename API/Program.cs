@@ -1,9 +1,11 @@
 using API.Data;
+using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using API.MiddleWare;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -56,8 +58,10 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
+    var UserManager = services.GetRequiredService<UserManager<AppUsser>>();
+    var userRole = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
-    await Seed.SeedUSers(context);
+    await Seed.SeedUsers( UserManager , userRole);
 }
 catch(Exception ex)
 {
