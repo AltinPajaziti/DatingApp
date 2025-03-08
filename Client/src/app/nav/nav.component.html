@@ -68,6 +68,10 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/messages"  routerLinkActive="active">Messages</a>
         </li>
+
+        <li class="nav-item" *appHasRoles="['Admin' , 'Moderator']">
+          <a class="nav-link" routerLink="/admin"  routerLinkActive="active">Admin</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="member/edit"  routerLinkActive="active">Edit Profile</a>
         </li>

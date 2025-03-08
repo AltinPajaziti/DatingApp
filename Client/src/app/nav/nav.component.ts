@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { AccountService } from '../services/account.service';
 import { CommonModule, NgIf } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { HasRolesDirective } from '../_directives/has-roles.directive';
 export interface model {
   username :string,
   password : string
@@ -10,7 +11,7 @@ export interface model {
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FormsModule , RouterLink ,RouterLinkActive],
+  imports: [FormsModule , RouterLink ,RouterLinkActive , HasRolesDirective],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
