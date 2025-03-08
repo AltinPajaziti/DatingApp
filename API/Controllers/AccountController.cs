@@ -30,9 +30,9 @@ namespace API.Controllers
 
             user.UserName = User.Username.ToLower();
 
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(User.Password));
+            //user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(User.Password));
 
-            user.PasswordSalt = hmac.Key;
+            //user.PasswordSalt = hmac.Key;
 
 
             context.Users.Add(user);
@@ -69,17 +69,17 @@ namespace API.Controllers
                 return Unauthorized("User does not exists");
             }
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
+            //using var hmac = new HMACSHA512(user.PasswordSalt);
 
-            var computedhash = hmac.ComputeHash(Encoding.UTF8.GetBytes(User.Password));
+            //var computedhash = hmac.ComputeHash(Encoding.UTF8.GetBytes(User.Password));
 
-            for (int i = 0; i < computedhash.Length; i++)
-            {
-                if (computedhash[i] != user.PasswordHash[i])
-                {
-                    return Unauthorized("Invalid Password");
-                }
-            }
+            //for (int i = 0; i < computedhash.Length; i++)
+            //{
+            //    if (computedhash[i] != user.PasswordHash[i])
+            //    {
+            //        return Unauthorized("Invalid Password");
+            //    }
+            //}
 
             var token = tokenService.CreateToken(user);
 
