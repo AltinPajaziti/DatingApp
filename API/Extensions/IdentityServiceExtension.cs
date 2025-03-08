@@ -1,7 +1,9 @@
 ﻿using API.Data;
+using API.Entities;
 using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -16,7 +18,13 @@ namespace API.Extensions
 
         public static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration config)
         {
-
+            services.AddIdentityCore<AppUsser>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+            })
+            .AddRoles<AppRole>()
+            .AddRoleManager<RoleManager<AppRole>>()
+            .AddEntityFrameworkStores<DataContext>();
 
             services.AddSwaggerGen(options =>
             {
