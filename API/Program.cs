@@ -4,6 +4,7 @@ using API.Extensions;
 using API.Interfaces;
 using API.MiddleWare;
 using API.Services;
+using API.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ builder.Services.AddIdentityService(builder.Configuration);
 
 
 var app = builder.Build();
+app.MapHub<PresenceHub>("hubs/presence");
 
 
 app.UseMiddleware<ExceptionMiddleware>();

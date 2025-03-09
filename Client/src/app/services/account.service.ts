@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 import { JsonPipe } from '@angular/common';
 import { environment } from '../../environments/environment.development';
 import { LikesService } from './likes.service';
+import { PresenceService } from './presence.service';
 
 
 @Injectable({
@@ -16,6 +17,7 @@ export class AccountService {
   private http = inject(HttpClient)
   private likes = inject(LikesService)
   private baseurl : string = environment.apiUrl
+  private presenceService = inject(PresenceService)
 
   roles = computed(() => {
     const user = this.currentuser();
@@ -40,6 +42,7 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user')
     this.currentuser.set(null)
+    this.presenceService.stopHubConnection()
   
   }
 
@@ -47,6 +50,7 @@ export class AccountService {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentuser.set(user);
     this.likes.getLikeIds()
+    this.presenceService.createHubConnection(user)
   }
 
 
