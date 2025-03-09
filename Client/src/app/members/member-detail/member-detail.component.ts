@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { MemberMessagesComponent } from "../member-messages/member-messages.component";
 import { Message } from '../../Models/Message';
 import { MessageService } from '../../services/message.service';
+import { PresenceService } from '../../services/presence.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class MemberDetailComponent implements OnInit{
 
   @ViewChild('memberTabs', {static: true}) memberTabs?: TabsetComponent;
   private messageService = inject(MessageService);
-  private memberService = inject(MembersService);
+  public presenceService = inject(PresenceService);
   private route = inject(ActivatedRoute);
   member: Member = {} as Member;
   images: GalleryItem[] = [];
