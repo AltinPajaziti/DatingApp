@@ -46,7 +46,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+    .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -63,6 +65,7 @@ try
     var UserManager = services.GetRequiredService<UserManager<AppUsser>>();
     var userRole = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
+    await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
     await Seed.SeedUsers( UserManager , userRole);
 }
 catch(Exception ex)

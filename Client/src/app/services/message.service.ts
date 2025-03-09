@@ -1,23 +1,24 @@
+import { Injectable, inject, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../environments/environment.development';
-import { Message } from '../Models/Message';
-import { PaginatedResult } from '../Models/PaginatedResult';
-import { setPaginationHeaders, setPaginatedResponse } from './paginationHelper';
-import  { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
-import  { User } from '../Models/User';
+
+import { setPaginatedResponse, setPaginationHeaders } from './paginationHelper';
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import  { Group } from '../Models/Group';
+import  { Message } from '../Models/Message';
+import  { PaginatedResult } from '../Models/PaginatedResult';
+import  { User } from '../Models/User';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-
   baseUrl = environment.apiUrl;
-  private http = inject(HttpClient);
-  paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
   hubUrl = environment.hubsUrl;
+  private http = inject(HttpClient);
   hubConnection?: HubConnection;
+  paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
   messageThread = signal<Message[]>([]);
 
   createHubConnection(user: User, otherUsername: string) {
@@ -73,8 +74,8 @@ export class MessageService {
     return this.http.get<Message[]>(this.baseUrl + 'messages/thread/' + username);
   }
 
-  sendMessage(username: string, content: string) {
-    return this.http.post<Message>(this.baseUrl + 'messages', {recipientUsername: username, content})
+  async sendMessage(username: string, content: string) {
+    return this.hubConnection?.invoke('SendMessage', {recipientUsername: username, content})
   }
 
   deleteMessage(id: number) {
