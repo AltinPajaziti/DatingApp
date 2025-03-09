@@ -117,13 +117,7 @@
       </form>
     }
 
-    @if (!account.currentuser()) {
-      <form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex ms-auto">
-        <input class="form-control me-2" type="text" name="username" [(ngModel)]="model.username" placeholder="Username">
-        <input type="password" name="password" class="form-control me-2" [(ngModel)]="model.password" placeholder="Password">
-        <button class="btn btn-outline-success" type="submit">Login</button>
-      </form>
-    }
+ 
   </div>
 </nav>
 
