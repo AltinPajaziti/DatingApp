@@ -34,7 +34,7 @@ builder.Services.AddIdentityService(builder.Configuration);
 
 var app = builder.Build();
 app.MapHub<PresenceHub>("hubs/presence");
-
+app.MapHub<MessageHub>("hubs/message");
 
 app.UseMiddleware<ExceptionMiddleware>();
 
